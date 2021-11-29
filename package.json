@@ -9,5 +9,9 @@
     "tailwindcss": "^2.2.19",
     "webpack": "^5.64.4",
     "webpack-cli": "^4.9.1"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css"
   }
 }
