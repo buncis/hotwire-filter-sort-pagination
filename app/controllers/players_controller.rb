@@ -1,14 +1,10 @@
 class PlayersController < ApplicationController
+  include Filterable
+
   before_action :set_player, only: %i[ show edit update destroy ]
 
   def list
-    session['filters'] = {} if session['filters'].blank?
-
-    session['filters'].merge!(filter_params)
-    players = Player.includes(:team)
-    players = players.where('players.name ilike ?', "%#{session['filters']['name']}%") if session['filters']['name'].present?
-    players = players.order("#{session['filters']['column']} #{session['filters']['direction']}")
-
+    players = filter!(Player)
     render(partial: 'players', locals: { players: players })
   end
 
