@@ -2,7 +2,9 @@ class PlayersController < ApplicationController
   before_action :set_player, only: %i[ show edit update destroy ]
 
   def list
-    players = Player.includes(:team).order("#{params[:column]} #{params[:direction]}")
+    players = Player.includes(:team)
+    players = players.where('name ilike ?', "%#{params[:name]}%") if params[:name].present?
+    players = players.order("#{params[:column]} #{params[:direction]}")
     render(partial: 'players', locals: { players: players })
   end
 
