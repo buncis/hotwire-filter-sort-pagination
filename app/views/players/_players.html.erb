@@ -13,6 +13,7 @@
     %>
     <%= form.text_field :name,
       placeholder: "Search by name",
+      value: session.dig('player_filters', 'name'),
       class: "border border-blue-500 rounded p-2",
       autocomplete: "off",
       data: { action: "input->search-form#search" }
