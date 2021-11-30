@@ -2,9 +2,13 @@ class PlayersController < ApplicationController
   before_action :set_player, only: %i[ show edit update destroy ]
 
   def list
+    session['filters'] = {} if session['filters'].blank?
+
+    session['filters'].merge!(filter_params)
     players = Player.includes(:team)
-    players = players.where('name ilike ?', "%#{params[:name]}%") if params[:name].present?
-    players = players.order("#{params[:column]} #{params[:direction]}")
+    players = players.where('players.name ilike ?', "%#{session['filters']['name']}%") if session['filters']['name'].present?
+    players = players.order("#{session['filters']['column']} #{session['filters']['direction']}")
+
     render(partial: 'players', locals: { players: players })
   end
 
@@ -72,5 +76,9 @@ class PlayersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def player_params
       params.require(:player).permit(:name, :team_id, :seasons)
+    end
+
+    def filter_params
+      params.permit(:name, :column, :direction)
     end
 end
