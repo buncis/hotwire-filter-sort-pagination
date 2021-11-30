@@ -1,6 +1,11 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: %i[ show edit update destroy ]
 
+  def list
+    players = Player.includes(:team).order("#{params[:column]} asc")
+    render(partial: 'players', locals: { players: players })
+  end
+
   # GET /players or /players.json
   def index
     @players = Player.all
