@@ -4,13 +4,13 @@ class PlayersController < ApplicationController
   before_action :set_player, only: %i[ show edit update destroy ]
 
   def list
-    players = filter!(Player)
-    render(partial: 'players', locals: { players: players })
+    pagy, players = pagy(filter!(Player))
+    render(partial: 'players', locals: { players: players, pagy: pagy })
   end
 
   # GET /players or /players.json
   def index
-    @players = filter!(Player)
+    @pagy, @players = pagy(filter!(Player))
   end
 
   # GET /players/1 or /players/1.json
@@ -75,6 +75,6 @@ class PlayersController < ApplicationController
     end
 
     def filter_params
-      params.permit(:name, :column, :direction)
+      params.permit(:name, :column, :direction, :page)
     end
 end

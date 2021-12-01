@@ -55,3 +55,5 @@ gem "cssbundling-rails", "~> 0.2.6"
 gem "jsbundling-rails", "~> 0.2.1"
 gem "hotwire-rails", "~> 0.1.3"
 gem "faker", "~> 2.19"
+
+gem "pagy", "~> 5.6"
